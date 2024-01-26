@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.Scripts.LiveObjects;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 namespace Game.Scripts.Player
 {
@@ -22,6 +23,7 @@ namespace Game.Scripts.Player
         [SerializeField]
         private GameObject _model;
 
+        private GameInputs _input;
 
         private void OnEnable()
         {
@@ -33,6 +35,8 @@ namespace Game.Scripts.Player
             Forklift.onDriveModeEntered += HidePlayer;
             Drone.OnEnterFlightMode += ReleasePlayerControl;
             Drone.onExitFlightmode += ReturnPlayerControl;
+
+            InitializeInputs();
         } 
 
         private void Start()
@@ -48,6 +52,12 @@ namespace Game.Scripts.Player
                 Debug.Log("Failed to connect the Animator");
         }
 
+        private void InitializeInputs()
+        {
+            _input = new GameInputs();
+            _input.Player.Enable();
+        }
+
         private void Update()
         {
             if (_canMove == true)
@@ -58,8 +68,11 @@ namespace Game.Scripts.Player
         private void CalcutateMovement()
         {
             _playerGrounded = _controller.isGrounded;
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            //float h = Input.GetAxisRaw("Horizontal");
+            //float v = Input.GetAxisRaw("Vertical");
+
+            float h = _input.Player.Rotation.ReadValue<float>();
+            float v = _input.Player.Movement.ReadValue<float>();
 
             transform.Rotate(transform.up, h);
 

@@ -35,8 +35,6 @@ namespace Game.Scripts.Player
             Forklift.onDriveModeEntered += HidePlayer;
             Drone.OnEnterFlightMode += ReleasePlayerControl;
             Drone.onExitFlightmode += ReturnPlayerControl;
-
-            InitializeInputs();
         } 
 
         private void Start()
@@ -50,6 +48,8 @@ namespace Game.Scripts.Player
 
             if (_anim == null)
                 Debug.Log("Failed to connect the Animator");
+
+            InitializeInputs();
         }
 
         private void InitializeInputs()
@@ -71,8 +71,8 @@ namespace Game.Scripts.Player
             //float h = Input.GetAxisRaw("Horizontal");
             //float v = Input.GetAxisRaw("Vertical");
 
-            float h = _input.Player.Rotation.ReadValue<float>();
-            float v = _input.Player.Movement.ReadValue<float>();
+            float h = InputManager.Instance.input.Player.Rotation.ReadValue<float>();
+            float v = InputManager.Instance.input.Player.Movement.ReadValue<float>();
 
             transform.Rotate(transform.up, h);
 

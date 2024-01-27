@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Interaaction",
+                    "type": "Button",
+                    "id": "e22cd502-0d8a-4126-a35e-fe3756844c51",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -90,6 +99,17 @@
                     "action": "Rotation",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "16fe76d0-414c-4347-995f-852522a2112c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Hold(duration=0.01)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interaaction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

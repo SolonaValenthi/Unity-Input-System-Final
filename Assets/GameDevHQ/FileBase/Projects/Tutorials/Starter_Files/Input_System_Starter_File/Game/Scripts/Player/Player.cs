@@ -23,8 +23,6 @@ namespace Game.Scripts.Player
         [SerializeField]
         private GameObject _model;
 
-        private GameInputs _input;
-
         private void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
@@ -48,14 +46,6 @@ namespace Game.Scripts.Player
 
             if (_anim == null)
                 Debug.Log("Failed to connect the Animator");
-
-            InitializeInputs();
-        }
-
-        private void InitializeInputs()
-        {
-            _input = new GameInputs();
-            _input.Player.Enable();
         }
 
         private void Update()

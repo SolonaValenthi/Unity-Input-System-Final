@@ -3493,7 +3493,6 @@ MonoBehaviour:
   _displayMessage: Break the Crate
   _zoneItems: []
   _inventoryIcon: {fileID: 21300000, guid: 88841726d7ebbfc46bf799ee1bfb7d3f, type: 3}
-  _zoneKeyInput: 101
   _keyState: 0
   _marker: {fileID: 1808342870}
 --- !u!1001 &198573547
@@ -6980,7 +6979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 97d8603973db24ad9a847ee6769617dc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.624
+      value: 12.519
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 97d8603973db24ad9a847ee6769617dc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9286,7 +9285,6 @@ MonoBehaviour:
   _zoneItems:
   - {fileID: 758722189}
   _inventoryIcon: {fileID: 21300000, guid: 8e46bcb2f14d4d144b9e4a395b47efa2, type: 3}
-  _zoneKeyInput: 101
   _keyState: 0
   _marker: {fileID: 605505802}
 --- !u!4 &482471386 stripped
@@ -11595,7 +11593,6 @@ MonoBehaviour:
   _displayMessage: Denotate C4
   _zoneItems: []
   _inventoryIcon: {fileID: 21300000, guid: 88841726d7ebbfc46bf799ee1bfb7d3f, type: 3}
-  _zoneKeyInput: 32
   _keyState: 0
   _marker: {fileID: 1331263896}
 --- !u!1001 &565131287
@@ -19617,7 +19614,6 @@ MonoBehaviour:
   _displayMessage: Reset
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
-  _zoneKeyInput: 101
   _keyState: 0
   _marker: {fileID: 1578479318}
 --- !u!1 &967188505
@@ -19748,7 +19744,7 @@ Transform:
   m_GameObject: {fileID: 972744894}
   serializedVersion: 2
   m_LocalRotation: {x: 0.22150685, y: 0.046706147, z: -0.0106221, w: 0.97398174}
-  m_LocalPosition: {x: -0.48177326, y: 4.5286655, z: -4.833789}
+  m_LocalPosition: {x: -0.48177478, y: 4.5286655, z: -4.833789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26901,7 +26897,6 @@ MonoBehaviour:
   - {fileID: 474256985}
   - {fileID: 908574055}
   _inventoryIcon: {fileID: 21300000, guid: 81dff3a1ca824714aae965897edd2351, type: 3}
-  _zoneKeyInput: 101
   _keyState: 0
   _marker: {fileID: 1583429342}
 --- !u!1001 &1178759240
@@ -28228,7 +28223,7 @@ PrefabInstance:
     - target: {fileID: 5779097134961922744, guid: 1d553f90302742946bbf45996165949c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.478
+      value: 9.05
       objectReference: {fileID: 0}
     - target: {fileID: 5779097134961922744, guid: 1d553f90302742946bbf45996165949c,
         type: 3}
@@ -28312,7 +28307,6 @@ MonoBehaviour:
   _displayMessage: Drive Forklift
   _zoneItems: []
   _inventoryIcon: {fileID: 21300000, guid: 88841726d7ebbfc46bf799ee1bfb7d3f, type: 3}
-  _zoneKeyInput: 101
   _keyState: 0
   _marker: {fileID: 1840441541}
 --- !u!4 &1277958657 stripped
@@ -38630,7 +38624,6 @@ MonoBehaviour:
   _displayMessage: Fly Drone
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
-  _zoneKeyInput: 101
   _keyState: 0
   _marker: {fileID: 1041737524}
 --- !u!1001 &1810757429
@@ -38760,7 +38753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c14085171003ee2478ef40ebd5fcbee8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.036
+      value: 7.778
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c14085171003ee2478ef40ebd5fcbee8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -42679,7 +42672,6 @@ MonoBehaviour:
   _displayMessage: Hack Cameras
   _zoneItems: []
   _inventoryIcon: {fileID: 0}
-  _zoneKeyInput: 101
   _keyState: 1
   _marker: {fileID: 55150249}
 --- !u!4 &2030128479 stripped

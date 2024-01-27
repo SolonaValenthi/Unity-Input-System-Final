@@ -39,8 +39,9 @@ namespace Game.Scripts.LiveObjects
         private bool _actionPerformed = false;
         [SerializeField]
         private Sprite _inventoryIcon;
-        [SerializeField]
-        private KeyCode _zoneKeyInput;
+        //[SerializeField]
+        //private KeyCode _zoneKeyInput;
+        string _interactKeyName;
         [SerializeField]
         private KeyState _keyState;
         [SerializeField]
@@ -77,6 +78,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (other.CompareTag("Player") && _currentZoneID > _requiredID)
             {
+                _interactKeyName = InputManager.Instance.input.Player.Interaction.bindings[0].ToDisplayString(InputBinding.DisplayStringOptions.DontIncludeInteractions);
                 switch (_zoneType)
                 {
                     case ZoneType.Collectable:
@@ -85,11 +87,11 @@ namespace Game.Scripts.LiveObjects
                             _inZone = true;
                             if (_displayMessage != null)
                             {
-                                string message = $"Press the {_zoneKeyInput.ToString()} key to {_displayMessage}.";
+                                string message = $"Press the {_interactKeyName} key to {_displayMessage}.";
                                 UIManager.Instance.DisplayInteractableZoneMessage(true, message);
                             }
                             else
-                                UIManager.Instance.DisplayInteractableZoneMessage(true, $"Press the {_zoneKeyInput.ToString()} key to collect");
+                                UIManager.Instance.DisplayInteractableZoneMessage(true, $"Press the {_interactKeyName} key to collect");
                         }
                         break;
 
@@ -99,11 +101,11 @@ namespace Game.Scripts.LiveObjects
                             _inZone = true;
                             if (_displayMessage != null)
                             {
-                                string message = $"Press the {_zoneKeyInput.ToString()} key to {_displayMessage}.";
+                                string message = $"Press the {_interactKeyName} key to {_displayMessage}.";
                                 UIManager.Instance.DisplayInteractableZoneMessage(true, message);
                             }
                             else
-                                UIManager.Instance.DisplayInteractableZoneMessage(true, $"Press the {_zoneKeyInput.ToString()} key to perform action");
+                                UIManager.Instance.DisplayInteractableZoneMessage(true, $"Press the {_interactKeyName} key to perform action");
                         }
                         break;
 
@@ -111,11 +113,11 @@ namespace Game.Scripts.LiveObjects
                         _inZone = true;
                         if (_displayMessage != null)
                         {
-                            string message = $"Press the {_zoneKeyInput.ToString()} key to {_displayMessage}.";
+                            string message = $"Press the {_interactKeyName} key to {_displayMessage}.";
                             UIManager.Instance.DisplayInteractableZoneMessage(true, message);
                         }
                         else
-                            UIManager.Instance.DisplayInteractableZoneMessage(true, $"Hold the {_zoneKeyInput.ToString()} key to perform action");
+                            UIManager.Instance.DisplayInteractableZoneMessage(true, $"Hold the {_interactKeyName} key to perform action");
                         break;
                 }
             }
@@ -126,7 +128,7 @@ namespace Game.Scripts.LiveObjects
             if (_inZone == true)
             {
 
-                if (Input.GetKeyDown(_zoneKeyInput) && _keyState != KeyState.PressHold)
+                if (InputManager.Instance.input.Player.Interaction.WasPressedThisFrame() && _keyState != KeyState.PressHold)
                 {
                     //press
                     switch (_zoneType)
@@ -150,7 +152,7 @@ namespace Game.Scripts.LiveObjects
                             break;
                     }
                 }
-                else if (Input.GetKey(_zoneKeyInput) && _keyState == KeyState.PressHold && _inHoldState == false)
+                else if (InputManager.Instance.input.Player.Interaction.IsPressed() && _keyState == KeyState.PressHold && _inHoldState == false)
                 {
                     _inHoldState = true;
 
@@ -164,7 +166,7 @@ namespace Game.Scripts.LiveObjects
                     }
                 }
 
-                if (Input.GetKeyUp(_zoneKeyInput) && _keyState == KeyState.PressHold)
+                if (InputManager.Instance.input.Player.Interaction.WasReleasedThisFrame() && _keyState == KeyState.PressHold)
                 {
                     _inHoldState = false;
                     onHoldEnded?.Invoke(_zoneID);

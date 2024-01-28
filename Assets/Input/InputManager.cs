@@ -27,4 +27,18 @@ public class InputManager : MonoBehaviour
         input = new GameInputs();
         input.Player.Enable();
     }
+
+    public void DroneControl(bool active)
+    {
+        if (active)
+        {
+            input.Player.Disable();
+            input.Drone.Enable();
+        }
+        else
+        {
+            input.Player.Enable();
+            input.Drone.Disable();
+        }
+    }
 }

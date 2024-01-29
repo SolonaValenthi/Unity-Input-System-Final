@@ -41,4 +41,18 @@ public class InputManager : MonoBehaviour
             input.Drone.Disable();
         }
     }
+
+    public void ForkliftControl(bool active)
+    {
+        if (active)
+        {
+            input.Player.Disable();
+            input.Forklift.Enable();
+        }
+        else
+        {
+            input.Player.Enable();
+            input.Forklift.Disable();
+        }
+    }
 }

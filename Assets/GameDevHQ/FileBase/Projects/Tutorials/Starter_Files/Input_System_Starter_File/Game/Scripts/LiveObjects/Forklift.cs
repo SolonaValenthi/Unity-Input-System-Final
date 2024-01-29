@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -36,6 +37,7 @@ namespace Game.Scripts.LiveObjects
                 _forkliftCam.Priority = 11;
                 onDriveModeEntered?.Invoke();
                 _driverModel.SetActive(true);
+                InputManager.Instance.ForkliftControl(true);
                 _interactableZone.CompleteTask(5);
             }
         }
@@ -45,6 +47,7 @@ namespace Game.Scripts.LiveObjects
             _inDriveMode = false;
             _forkliftCam.Priority = 9;            
             _driverModel.SetActive(false);
+            InputManager.Instance.ForkliftControl(false);
             onDriveModeExited?.Invoke();
             
         }
@@ -63,8 +66,12 @@ namespace Game.Scripts.LiveObjects
 
         private void CalcutateMovement()
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            //float h = Input.GetAxisRaw("Horizontal");
+            //float v = Input.GetAxisRaw("Vertical");
+
+            float h = InputManager.Instance.input.Forklift.Rotation.ReadValue<float>();
+            float v = InputManager.Instance.input.Forklift.Movement.ReadValue<float>();
+
             var direction = new Vector3(0, 0, v);
             var velocity = direction * _speed;
 
@@ -80,13 +87,38 @@ namespace Game.Scripts.LiveObjects
 
         private void LiftControls()
         {
-            if (Input.GetKey(KeyCode.R))
+            /*if (Input.GetKey(KeyCode.R))
                 LiftUpRoutine();
             else if (Input.GetKey(KeyCode.T))
-                LiftDownRoutine();
+                LiftDownRoutine();*/
+
+            if (InputManager.Instance.input.Forklift.Lift.IsPressed())
+                LiftRoutine();
         }
 
-        private void LiftUpRoutine()
+        private void LiftRoutine()
+        {
+            float lift = InputManager.Instance.input.Forklift.Lift.ReadValue<float>();
+
+            if (lift > 0 && _lift.transform.localPosition.y < _liftUpperLimit.y)
+            {
+                Vector3 tempPos = _lift.transform.localPosition;
+                tempPos.y += lift * Time.deltaTime * _liftSpeed;
+                _lift.transform.localPosition = tempPos;
+            }
+            else if (lift < 0 && _lift.transform.localPosition.y > _liftLowerLimit.y)
+            {
+                Vector3 tempPos = _lift.transform.localPosition;
+                tempPos.y += lift * Time.deltaTime * _liftSpeed;
+                _lift.transform.localPosition = tempPos;
+            }
+            else if (_lift.transform.localPosition.y >= _liftUpperLimit.y)
+                _lift.transform.localPosition = _liftUpperLimit;
+            else if (_lift.transform.localPosition.y <= _liftUpperLimit.y)
+                _lift.transform.localPosition = _liftLowerLimit;
+        }
+
+        /*private void LiftUpRoutine()
         {
             if (_lift.transform.localPosition.y < _liftUpperLimit.y)
             {
@@ -108,7 +140,7 @@ namespace Game.Scripts.LiveObjects
             }
             else if (_lift.transform.localPosition.y <= _liftUpperLimit.y)
                 _lift.transform.localPosition = _liftLowerLimit;
-        }
+        }*/
 
         private void OnDisable()
         {

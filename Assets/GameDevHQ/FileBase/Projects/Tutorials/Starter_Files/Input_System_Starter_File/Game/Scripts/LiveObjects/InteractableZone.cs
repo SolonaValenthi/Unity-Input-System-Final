@@ -123,12 +123,18 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void Update()
+        private void Start()
+        {
+            InputManager.Instance.input.Player.Interaction.performed += Interaction_performed;
+            InputManager.Instance.input.Player.Interaction.canceled += Interaction_canceled;
+        }
+
+        private void Interaction_performed(InputAction.CallbackContext context)
         {
             if (_inZone == true)
             {
 
-                if (InputManager.Instance.input.Player.Interaction.WasPressedThisFrame() && _keyState != KeyState.PressHold)
+                if (_keyState != KeyState.PressHold)
                 {
                     //press
                     switch (_zoneType)
@@ -152,27 +158,31 @@ namespace Game.Scripts.LiveObjects
                             break;
                     }
                 }
-                else if (InputManager.Instance.input.Player.Interaction.IsPressed() && _keyState == KeyState.PressHold && _inHoldState == false)
+                else if (_keyState == KeyState.PressHold && _inHoldState == false)
                 {
                     _inHoldState = true;
 
-                   
-
                     switch (_zoneType)
-                    {                      
+                    {
                         case ZoneType.HoldAction:
                             PerformHoldAction();
-                            break;           
+                            break;
                     }
                 }
+            }
+        }
 
-                if (InputManager.Instance.input.Player.Interaction.WasReleasedThisFrame() && _keyState == KeyState.PressHold)
+        private void Interaction_canceled(InputAction.CallbackContext context)
+        {
+            float dur = (float)context.duration;
+
+            if (_inZone == true)
+            {
+                if (_keyState == KeyState.PressHold)
                 {
                     _inHoldState = false;
                     onHoldEnded?.Invoke(_zoneID);
                 }
-
-               
             }
         }
        

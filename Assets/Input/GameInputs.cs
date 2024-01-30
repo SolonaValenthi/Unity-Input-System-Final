@@ -321,6 +321,15 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""e05eceb7-acd5-42e5-a6cb-91be0b75ffb5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -422,6 +431,17 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Lift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0aaab0b0-3449-4f47-b66f-508325228c49"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -443,6 +463,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         m_Forklift_Movement = m_Forklift.FindAction("Movement", throwIfNotFound: true);
         m_Forklift_Rotation = m_Forklift.FindAction("Rotation", throwIfNotFound: true);
         m_Forklift_Lift = m_Forklift.FindAction("Lift", throwIfNotFound: true);
+        m_Forklift_Exit = m_Forklift.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -631,6 +652,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Forklift_Movement;
     private readonly InputAction m_Forklift_Rotation;
     private readonly InputAction m_Forklift_Lift;
+    private readonly InputAction m_Forklift_Exit;
     public struct ForkliftActions
     {
         private @GameInputs m_Wrapper;
@@ -638,6 +660,7 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Forklift_Movement;
         public InputAction @Rotation => m_Wrapper.m_Forklift_Rotation;
         public InputAction @Lift => m_Wrapper.m_Forklift_Lift;
+        public InputAction @Exit => m_Wrapper.m_Forklift_Exit;
         public InputActionMap Get() { return m_Wrapper.m_Forklift; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -656,6 +679,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @Lift.started += instance.OnLift;
             @Lift.performed += instance.OnLift;
             @Lift.canceled += instance.OnLift;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
         }
 
         private void UnregisterCallbacks(IForkliftActions instance)
@@ -669,6 +695,9 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
             @Lift.started -= instance.OnLift;
             @Lift.performed -= instance.OnLift;
             @Lift.canceled -= instance.OnLift;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
         }
 
         public void RemoveCallbacks(IForkliftActions instance)
@@ -703,5 +732,6 @@ public partial class @GameInputs: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
         void OnLift(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
 }

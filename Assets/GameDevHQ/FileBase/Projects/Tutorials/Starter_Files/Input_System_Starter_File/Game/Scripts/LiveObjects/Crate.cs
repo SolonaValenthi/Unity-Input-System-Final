@@ -12,55 +12,74 @@ namespace Game.Scripts.LiveObjects
         [SerializeField] private BoxCollider _crateCollider;
         [SerializeField] private InteractableZone _interactableZone;
         private bool _isReadyToBreak = false;
+        private float _holdStarted;
+        private float _holdDelay = 0.5f; //key must be held for half second to break multiple parts.
 
-        private List<Rigidbody> _brakeOff = new List<Rigidbody>();
+        private List<Rigidbody> _breakOff = new List<Rigidbody>();
 
         private void OnEnable()
         {
-            InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
+            InteractableZone.onHoldStarted += InteractableZone_onHoldStarted;
+            InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
         }
 
-        private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
+        private void InteractableZone_onHoldStarted(int zoneID)
         {
-            
-            if (_isReadyToBreak == false && _brakeOff.Count >0)
+            if (zoneID == 6)
             {
-                _wholeCrate.SetActive(false);
-                _brokenCrate.SetActive(true);
-                _isReadyToBreak = true;
-            }
+                if (_isReadyToBreak == false && _breakOff.Count > 0)
+                {
+                    _wholeCrate.SetActive(false);
+                    _brokenCrate.SetActive(true);
+                    _isReadyToBreak = true;
+                }
 
-            if (_isReadyToBreak && zone.GetZoneID() == 6) //Crate zone            
+                if (_isReadyToBreak)
+                {
+                    _holdStarted = Time.time;
+                }
+            }
+        }
+
+        private void InteractableZone_onHoldEnded(int zoneID)
+        {
+            if (_isReadyToBreak)
             {
-                if (_brakeOff.Count > 0)
+                if (Time.time > _holdStarted + _holdDelay)
                 {
+                    int breakCount = Random.Range(3, 6);
+
+                    for (int i = 0; i < breakCount; i++)
+                    {
+                        BreakPart();
+                    }
+                }
+                else
                     BreakPart();
-                    StartCoroutine(PunchDelay());
-                }
-                else if(_brakeOff.Count == 0)
-                {
-                    _isReadyToBreak = false;
-                    _crateCollider.enabled = false;
-                    _interactableZone.CompleteTask(6);
-                    Debug.Log("Completely Busted");
-                }
             }
         }
 
         private void Start()
         {
-            _brakeOff.AddRange(_pieces);
-            
+            _breakOff.AddRange(_pieces);   
         }
-
-
 
         public void BreakPart()
         {
-            int rng = Random.Range(0, _brakeOff.Count);
-            _brakeOff[rng].constraints = RigidbodyConstraints.None;
-            _brakeOff[rng].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
-            _brakeOff.Remove(_brakeOff[rng]);            
+            if (_breakOff.Count > 0)
+            {
+                int rng = Random.Range(0, _breakOff.Count);
+                _breakOff[rng].constraints = RigidbodyConstraints.None;
+                _breakOff[rng].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
+                _breakOff.Remove(_breakOff[rng]);
+            }
+            else if (_isReadyToBreak)
+            {
+                _isReadyToBreak = false;
+                _crateCollider.enabled = false;
+                _interactableZone.CompleteTask(6);
+                Debug.Log("Completely Busted");
+            }
         }
 
         IEnumerator PunchDelay()
@@ -77,7 +96,8 @@ namespace Game.Scripts.LiveObjects
 
         private void OnDisable()
         {
-            InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
+            InteractableZone.onHoldStarted -= InteractableZone_onHoldStarted;
+            InteractableZone.onHoldEnded -= InteractableZone_onHoldEnded;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Game.Scripts.LiveObjects
         {
             if (_hacked == true)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (InputManager.Instance.input.Player.Interaction.WasPressedThisFrame())
                 {
                     var previous = _activeCamera;
                     _activeCamera++;
@@ -47,7 +47,7 @@ namespace Game.Scripts.LiveObjects
                     _cameras[previous].Priority = 9;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (InputManager.Instance.input.Player.Exit.WasPressedThisFrame())
                 {
                     _hacked = false;
                     onHackEnded?.Invoke();
